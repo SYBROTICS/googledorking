@@ -1,0 +1,205 @@
+✅ Admin panels  
+✅ Sensitive files  
+✅ Secrets & credentials  
+✅ Error messages  
+✅ Backups  
+✅ Directories  
+✅ Login portals  
+✅ APIs  
+✅ Open cams  
+✅ Subdomains  
+✅ Tech detection  
+✅ Special tricks
+
+---
+
+# ⚡ ULTIMATE GOOGLE DORKING CHEAT SHEET FOR BUG BOUNTY
+
+---
+
+# 🧩 1. **Sensitive Files and Credentials**
+
+| Purpose | Dork |
+|:--------|:-----|
+| Find `.env` files | `ext:env "DB_PASSWORD"` |
+| Exposed `.git` folders | `intitle:"Index of" ".git"` |
+| AWS keys leakage | `filetype:env AWS_SECRET_ACCESS_KEY` |
+| Passwords in PHP files | `ext:php "password"` |
+| DB dumps | `ext:sql | ext:db | ext:dbf | ext:mdb "password"` |
+| Exposed configs | `ext:conf | ext:cnf | ext:reg | ext:cfg` |
+| Open `.bak` backup files | `ext:bak | ext:old | ext:backup` |
+| Open JSON configs | `ext:json "api_key" OR "secret"` |
+| Database credentials | `inurl:db_password filetype:env` |
+| Leaked SSH keys | `intitle:"index of" id_rsa` |
+
+---
+
+# 🧩 2. **Admin Panels and Management Interfaces**
+
+| Purpose | Dork |
+|:--------|:-----|
+| Admin logins | `inurl:admin | inurl:administrator | inurl:cpanel` |
+| Panel login pages | `intitle:"Admin Login"` |
+| Control panels | `inurl:"/admin/login.php"` |
+| Database administration (phpMyAdmin) | `inurl:"phpmyadmin/index.php"` |
+| Router admin pages | `inurl:":8080" intext:"admin"` |
+| VPN portals | `intitle:"VPN login"` |
+
+---
+
+# 🧩 3. **Exposed Directories / Listings**
+
+| Purpose | Dork |
+|:--------|:-----|
+| Open directories | `intitle:"index of" /` |
+| Music/media files | `intitle:"index of" mp3 | mp4 | wav | avi` |
+| Private document archives | `intitle:"index of" confidential` |
+| WordPress uploads (may have backups) | `intitle:"index of" wp-content/uploads` |
+| Source code leaks | `intitle:"index of" src` |
+
+---
+
+# 🧩 4. **Login Pages / Portals Discovery**
+
+| Purpose | Dork |
+|:--------|:-----|
+| Login panels | `inurl:login` |
+| Site login areas | `inurl:signin` |
+| Webmail login | `inurl:webmail` |
+| Customer/employee login portals | `intitle:"customer login" OR intitle:"employee login"` |
+| VPN/SSO authentication pages | `intitle:"SSO" inurl:auth` |
+
+---
+
+# 🧩 5. **Error Messages and Server Misconfigurations**
+
+| Purpose | Dork |
+|:--------|:-----|
+| SQL error leaks | `"SQL syntax" inurl:"id="` |
+| PHP errors | `"Warning: include"` |
+| Database errors exposed | `"Warning: mysql_connect()"` |
+| Sensitive debug messages | `"Fatal error" filetype:php` |
+| Apache server-status | `intitle:"Apache Status"` |
+| Exposed .DS_Store files (Mac directory structure) | `ext:DS_Store` |
+
+---
+
+# 🧩 6. **Secrets Exposure**
+
+| Purpose | Dork |
+|:--------|:-----|
+| GitHub tokens | `filetype:log "ghp_"` |
+| Stripe payment keys | `filetype:env "STRIPE_SECRET_KEY"` |
+| Firebase secrets | `"FIREBASE_API_KEY" filetype:env` |
+| Mail server creds | `"mail_password" filetype:env` |
+| Twilio tokens | `"TWILIO_AUTH_TOKEN"` |
+
+---
+
+# 🧩 7. **Finding APIs, Endpoints, and Swagger Docs**
+
+| Purpose | Dork |
+|:--------|:-----|
+| API documentation | `inurl:/api-docs OR inurl:/swagger` |
+| GraphQL endpoints | `inurl:graphql` |
+| WebSocket servers | `inurl:ws://` |
+| Public APIs leaking keys | `"Authorization: Bearer"` |
+| Open API keys in JavaScript | `filetype:js "apiKey"` |
+
+---
+
+# 🧩 8. **Subdomain Discovery via Google**
+
+| Purpose | Dork |
+|:--------|:-----|
+| Subdomains enumeration | `site:*.target.com` |
+| Find dev/test sites | `site:dev.target.com` OR `site:test.target.com` |
+| Find staging environments | `site:staging.target.com` |
+| Subdomains with admin panels | `site:*.target.com inurl:admin` |
+
+---
+
+# 🧩 9. **Open Cameras, Printers, Devices**
+
+| Purpose | Dork |
+|:--------|:-----|
+| Open security cams | `inurl:"/view.shtml"` |
+| IP cameras exposed | `intitle:"Live View / - AXIS"` |
+| Printers control panels | `inurl:"HP OfficeJet Pro"` |
+| Industrial control systems (ICS/SCADA) | `intitle:"Rockwell Automation Login"` |
+
+---
+
+# 🧩 10. **Finding Specific Tech Stacks**
+
+| Purpose | Dork |
+|:--------|:-----|
+| Find WordPress sites | `inurl:wp-content | inurl:wp-includes` |
+| Identify Joomla CMS | `inurl:administrator/index.php` |
+| Find websites running Laravel | `inurl:"/vendor/phpunit"` |
+| Ruby on Rails error messages | `"Ruby on Rails application could not be started"` |
+| Find vulnerable Tomcat servers | `intitle:"Apache Tomcat"` |
+
+---
+
+# 🛠️ 11. **Smart Google Operators for Hacking**
+
+| Operator | Usage |
+|:---------|:------|
+| `site:` | Search only within a domain |
+| `intitle:` | Search keywords in title |
+| `inurl:` | Search keywords in URL |
+| `filetype:` | Find specific file types (pdf, sql, env) |
+| `ext:` | Find by file extension |
+| `cache:` | See Google's cached version of page |
+| `related:` | Find similar websites |
+| `allintext:` | Search all text content |
+| `allinurl:` | Search full URL path |
+| `before:` / `after:` | Find pages indexed before/after a date |
+
+---
+
+# 🛡️ 12. **Google Dorking WAF Bypass / Obfuscation**
+
+✅ Mix dorks to evade basic protection:
+
+- `site:target.com inurl:admin intext:login`
+- `site:target.com filetype:env OR filetype:log`
+- `site:*.target.com ext:sql | ext:db`
+- `intitle:"index of" confidential site:target.com`
+- `"API_KEY" OR "DB_PASSWORD" filetype:env site:*.target.com`
+
+---
+
+# 🧠 13. **Pro Dorking Tips**
+
+✅ Always customize dorks with:
+
+- `site:target.com`
+- Specific extensions (`filetype:env`)
+- Specific keywords (`intext:password`)
+
+✅ Combine with **Bing**, **DuckDuckGo**, **Yandex** for deeper results.
+
+✅ Use **Google Advanced Search Operators** to fine-tune queries.
+
+✅ Use **tools**:
+- **GooFuzz** (Google hacking automation)
+- **DorksEye** (massive dork scanner)
+- **GHDB** (Google Hacking Database by Exploit-DB)
+
+---
+
+# 📋 MINI CHEAT LIST
+
+```
+site:target.com inurl:admin
+site:target.com filetype:env
+site:*.target.com inurl:login
+intitle:"index of" site:target.com
+filetype:sql intext:"password" site:target.com
+inurl:"/api" site:target.com
+site:target.com ext:bak | ext:old
+"DB_PASSWORD" filetype:env site:target.com
+intitle:"Live View" inurl:view.shtml
+```
