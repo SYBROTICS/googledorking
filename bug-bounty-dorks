@@ -1,0 +1,145 @@
+# 🛡️ Complete Bug Bounty Google Dorking List (Real Use)
+
+---
+
+## 1. **Find Exposed Sensitive Files**
+```
+site:target.com ext:sql | ext:db | ext:bak | ext:backup | ext:old
+site:target.com inurl:backup
+site:target.com intitle:"index of" "backup"
+site:target.com intitle:"index of" "db"
+site:target.com inurl:"database.sql"
+site:target.com inurl:".env"
+```
+🎯 **Goal:** Find accidentally uploaded DBs, backups, or environment variables.
+
+---
+
+## 2. **Find Login Pages**
+```
+site:target.com inurl:admin
+site:target.com inurl:login
+site:target.com intitle:"admin panel"
+site:target.com inurl:signin
+site:target.com intitle:"index of" admin
+```
+🎯 **Goal:** Find hidden or forgotten admin/login portals for authentication bugs (e.g., IDOR, Broken Auth).
+
+---
+
+## 3. **Find Configuration Files**
+```
+site:target.com ext:xml OR ext:conf OR ext:ini OR ext:env
+site:target.com ext:json "API_KEY"
+site:target.com ext:yaml OR ext:yml
+site:target.com ext:cfg
+```
+🎯 **Goal:** Find leaked configuration files (often contain hardcoded credentials, API keys).
+
+---
+
+## 4. **Find Publicly Exposed Documents**
+```
+site:target.com ext:pdf | ext:doc | ext:xls | ext:txt
+site:target.com filetype:pdf confidential
+site:target.com filetype:txt password
+```
+🎯 **Goal:** Look for leaked internal files, sometimes with credentials inside.
+
+---
+
+## 5. **Find Git Repositories or SVN Exposures**
+```
+site:target.com inurl:.git
+site:target.com inurl:.svn
+site:target.com intitle:"index of" ".git"
+```
+🎯 **Goal:** Git folder exposure can allow full codebase downloading (huge critical issues!).
+
+---
+
+## 6. **Find API Keys and Secrets**
+```
+site:target.com "api_key"
+site:target.com "client_secret"
+site:target.com "AWS_ACCESS_KEY_ID"
+site:target.com "Authorization: Bearer"
+```
+🎯 **Goal:** Find exposed API tokens or secret keys — high impact if found.
+
+---
+
+## 7. **Find Unprotected Panels**
+```
+site:target.com intitle:"dashboard"
+site:target.com intitle:"control panel"
+site:target.com intitle:"phpmyadmin"
+site:target.com "Welcome to Jenkins!"
+```
+🎯 **Goal:** Find devops, admin, monitoring panels open to the world.
+
+---
+
+## 8. **Find SQL Error Messages**
+```
+site:target.com intext:"you have an error in your SQL syntax"
+site:target.com intext:"Warning: mysql_fetch"
+site:target.com intext:"Warning: pg_connect"
+```
+🎯 **Goal:** Spot SQL Injection points easily.
+
+---
+
+## 9. **Find Exposed Directories**
+```
+site:target.com intitle:"index of" admin
+site:target.com intitle:"index of" uploads
+site:target.com intitle:"index of" private
+site:target.com intitle:"index of" confidential
+```
+🎯 **Goal:** Browse open directories — easy file grabs.
+
+---
+
+## 10. **Find Specific Technologies (for Targeted Attacks)**
+```
+site:target.com "Powered by WordPress"
+site:target.com "Powered by Drupal"
+site:target.com "Powered by vBulletin"
+site:target.com "Powered by Apache"
+site:target.com "X-Powered-By: PHP"
+```
+🎯 **Goal:** Identify technology stack for CVE hunting.
+
+---
+
+# ⚡ Bonus: **Universal Dorking Tips**
+
+| Trick | Usage |
+|:----|:----|
+| `site:` | Limits search to one domain |
+| `inurl:` | Search inside the URL |
+| `intitle:` | Search inside the title tag |
+| `intext:` | Search inside the page body |
+| `ext:` or `filetype:` | Search specific file types |
+| `OR` operator | Combine multiple filetypes |
+| `"..."` quotes | Force exact phrase search |
+
+---
+
+# 🎯 Best Strategy for Bug Bounty Dorking:
+1. Pick your **target domain** (use **programs from HackerOne, Bugcrowd, Intigriti, Synack**).
+2. Modify the dorks replacing `site:target.com` with the real target.
+3. Focus on **misconfigurations**, **open files**, **leaked secrets**, **backup folders**, and **API keys**.
+4. Use **tools** like:
+   - **GitDorker**
+   - **Gitleaks**
+   - **Google Dorks Automation Scripts** (custom Bash/Python)
+
+---
+
+# 🚀 Pro-Tip:
+If you want **even faster results**, use tools like:
+- **github-dork-scraper** (to find leaks on GitHub)
+- **Shodan.io + Censys.io** (for finding exposed servers with banners)
+
